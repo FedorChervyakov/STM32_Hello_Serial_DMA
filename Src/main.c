@@ -55,13 +55,6 @@ static void MX_GPIO_Init(void);
 static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
-#ifdef __GNUC__
-/* With GCC, small printf (option LD Linker->Libraries->Small printf
-   set to 'Yes') calls __io_putchar() */
-#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
-#else
-#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
-#endif /* __GNUC__ */
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -288,19 +281,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-PUTCHAR_PROTOTYPE
-{
-    if (HAL_UART_Transmit_DMA(&huart1, (uint8_t *) &ch, 1) != HAL_OK) {
-        Error_Handler();
-    }
-
-    while (HAL_UART_GetState(&huart1) != HAL_UART_STATE_READY)
-    {
-    }
-
-    return ch;
-}
-
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef * huart)
 {
     HAL_GPIO_TogglePin(LD1_GPIO_Port, LD1_Pin);
